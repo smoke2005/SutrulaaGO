@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Itinerary Generator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='sutrulaa.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>AI-Powered Travel Itinerary</h1>
+
+    <form id="tripForm">
+      <label for="days">Number of Days:</label>
+      <input type="number" id="days" name="days" min="1" required>
+
+      <label for="interests">Select Your Interests:</label>
+      <select id="interests" name="interests" multiple required>
+        <option value="historical">Historical Sites</option>
+        <option value="nature">Nature & Parks</option>
+        <option value="food">Food & Restaurants</option>
+        <option value="shopping">Shopping</option>
+        <option value="adventure">Adventure</option>
+        <option value="art">Art & Culture</option>
+        <option value="beaches">Beaches</option>
+      </select>
+
+      <label for="latitude">Latitude (Optional):</label>
+      <input type="number" step="any" id="latitude" name="latitude" placeholder="e.g., 13.0827">
+
+      <label for="longitude">Longitude (Optional):</label>
+      <input type="number" step="any" id="longitude" name="longitude" placeholder="e.g., 80.2707">
+
+      <button type="submit">Generate Itinerary</button>
+    </form>
+
+    <div id="output" class="output hidden">
+      <h2>Your Itinerary:</h2>
+      <pre id="itineraryText">Generating itinerary...</pre>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("tripForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const days = document.getElementById("days").value;
+      const interestOptions = Array.from(document.getElementById("interests").selectedOptions);
+      const interests = interestOptions.map(opt => opt.value);
+
+      const latInput = document.getElementById("latitude").value;
+      const lonInput = document.getElementById("longitude").value;
+
+      const useManualLocation = latInput && lonInput;
+
+      document.getElementById("output").classList.remove("hidden");
+      document.getElementById("itineraryText").textContent = "Generating itinerary...";
+
+      const sendRequest = async (lat, lon) => {
+        const payload = {
+          user_id: "testuser123",
+          days: parseInt(days),
+          interests: interests,
+          location: { lat, lon }
+        };
+
+        try {
+          const res = await fetch("http://127.0.0.1:5000/generate-itinerary", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await res.json();
+          document.getElementById("itineraryText").textContent = data.itinerary;
+        } catch (error) {
+          document.getElementById("itineraryText").textContent = "Failed to fetch itinerary. Please try again.";
+        }
+      };
+
+      if (useManualLocation) {
+        sendRequest(parseFloat(latInput), parseFloat(lonInput));
+      } else if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            sendRequest(position.coords.latitude, position.coords.longitude);
+          },
+          () => {
+            document.getElementById("itineraryText").textContent = "Location access denied and no manual input provided.";
+          }
+        );
+      } else {
+        document.getElementById("itineraryText").textContent = "Geolocation not supported and no manual input provided.";
+      }
+    });
+  </script>
+</body>
+</html>

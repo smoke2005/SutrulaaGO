@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tourist Log</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="home">
+    <h1>Tourist Log</h1>
+
+    <form method="POST" enctype="multipart/form-data" class="log-form">
+        <input type="text" name="name" placeholder="Your Name" required><br>
+        <input type="text" name="location" placeholder="Location" required><br>
+        <textarea name="experience" placeholder="Share your experience..." required></textarea><br>
+        <input type="file" name="photo" accept="image/*"><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div class="log-entries">
+        <h2>Previous Logs:</h2>
+        {% for log in logs %}
+            <div class="log-entry">
+                <h3>{{ log.name }} @ {{ log.location }}</h3>
+                <p>{{ log.experience }}</p>
+                
+                {% if log.photo_url %}
+                    <img src="data:image/jpeg;base64,{{ log.photo_url }}" alt="Tourist Photo" style="max-width: 300px; margin-top: 10px;">
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
