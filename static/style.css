@@ -1,0 +1,147 @@
+/* Import Italiana font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+
+/* Universal Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Italiana', serif;
+    color: #faf9f3;
+}
+
+/* Landing Page Styles */
+.landing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background: linear-gradient(to bottom right, #3b241a, #5a3729);
+    color: #faf9f3;
+    position: relative;
+    overflow: hidden;
+}
+
+.rays {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, transparent 50%, rgba(255, 255, 255, 0.05) 51%),
+                repeating-conic-gradient(rgba(255, 255, 255, 0.04) 0deg 10deg, transparent 10deg 20deg);
+    border-radius: 50%;
+    z-index: 0;
+    opacity: 0.3;
+    top: calc(50% - 300px); /* center vertically */
+    left: calc(50% - 300px); /* center horizontally */
+    animation: slow-spin 30s linear infinite;
+}
+
+.center-text {
+    position: relative;
+    top: -40px; /* shifts everything up slightly from center */
+    text-align: center;
+}
+
+.center-text h1 {
+    font-size: 6rem;
+    font-weight: bold;
+    font-family: 'Italiana', serif;
+    color: #f8e2c9;
+    margin: 0;
+}
+
+.center-text h2 {
+    font-size: 3rem; /* slightly smaller */
+    font-weight: normal;
+    font-family: 'Italiana', serif;
+    color: #c4a28e;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    margin-top: 20px;
+}
+
+/* Home Page Styles */
+.home {
+    padding: 30px;
+    background-color: #2d1d14;
+    min-height: 100vh;
+    overflow-y: auto;
+    text-align: center;
+}
+
+.home h1 {
+    font-size: 3rem;
+    margin-bottom: 40px;
+    color: #c6b395;
+}
+
+/* Grid Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 30px;
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 800px;
+}
+
+/* Box Styling */
+.box {
+    background: #9c6d51;
+    padding: 40px 20px;
+    border-radius: 20px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-size: 2.5rem;
+    font-style: bold;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.log-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+    margin: 0 auto 40px;
+}
+
+.log-form input, .log-form textarea {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+}
+
+.log-form button {
+    padding: 10px;
+    border: none;
+    background-color: #5a3729;
+    color: rgb(199, 193, 177);
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.log-entries {
+    max-width: 700px;
+    margin: auto;
+    text-align: left;
+}
+
+.log-entry {
+    background: #9c6d51;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
