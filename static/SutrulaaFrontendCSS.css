@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    margin: auto;
+}
+
+button {
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #005fa3;
+}
+
+input {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#balance-result, #exchange-result, #exchange-money-result, #gpay-result {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
