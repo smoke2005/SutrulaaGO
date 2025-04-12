@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sutrulaaGO Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="home">
+    <h1>Welcome to sutrulaaGO</h1>
+    <div class="grid">
+        <div class="box">Chatbot</div>
+        <div class="box">
+            <a href="{{ url_for('tourist_log') }}" style="text-decoration: none; color: inherit;">
+                Travel Log
+            </a>
+        </div>
+        <div class="box">Itinerary</div>
+        <div class="box">AR Overlay</div>
+        <div class="box">
+            <a href="{{ url_for('currency') }}" style="text-decoration: none; color: inherit;">
+                Currency Exchange
+            </a>
+        </div>
+        
+        <div class="box">Profile</div>
+    </div>
+</body>
+</html>
