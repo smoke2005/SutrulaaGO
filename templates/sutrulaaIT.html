@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>AI Itinerary Generator</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='sutrulaa.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='sutrulaaIT.css') }}">
+  <!-- Optional: Google Font for styled appearance -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+  
 </head>
 <body>
   <div class="container">
@@ -24,10 +27,10 @@
         <option value="beaches">Beaches</option>
       </select>
 
-      <label for="latitude">Latitude (Optional):</label>
+      <label for="latitude">Latitude :</label>
       <input type="number" step="any" id="latitude" name="latitude" placeholder="e.g., 13.0827">
 
-      <label for="longitude">Longitude (Optional):</label>
+      <label for="longitude">Longitude :</label>
       <input type="number" step="any" id="longitude" name="longitude" placeholder="e.g., 80.2707">
 
       <button type="submit">Generate Itinerary</button>
@@ -35,7 +38,7 @@
 
     <div id="output" class="output hidden">
       <h2>Your Itinerary:</h2>
-      <pre id="itineraryText">Generating itinerary...</pre>
+      <div id="itineraryText" class="ai-itinerary-font">Generating itinerary...</div>
     </div>
   </div>
 
