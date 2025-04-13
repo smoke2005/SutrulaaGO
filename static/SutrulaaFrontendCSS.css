@@ -1,22 +1,23 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #2d1d14;
     text-align: center;
     padding: 20px;
 }
 
 .container {
-    background: white;
+    background: rgb(196, 157, 106);
     padding: 20px;
+    color: #3d2101;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(237, 236, 231, 0.283);
     width: 50%;
     margin: auto;
 }
 
 button {
-    background-color: #0077cc;
-    color: white;
+    background-color: #5b2b07b6;
+    color: rgb(223, 201, 167);
     border: none;
     padding: 10px 15px;
     margin: 10px;
@@ -25,14 +26,14 @@ button {
 }
 
 button:hover {
-    background-color: #005fa3;
+    background-color: #694507;
 }
 
 input {
     padding: 10px;
     margin: 5px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #e7d6b3;
 }
 
 #balance-result, #exchange-result, #exchange-money-result, #gpay-result {
@@ -42,6 +43,19 @@ input {
 }
 
 button:disabled {
-    background-color: #cccccc;
+    background-color: #b07611;
     cursor: not-allowed;
+}
+
+.rays {
+    position: absolute;
+    width: 100vw; /* Full width of the viewport */
+    height: 100vh; /* Full height of the viewport */
+    background: radial-gradient(circle, transparent 50%, rgba(255, 255, 255, 0.05) 51%),
+                repeating-conic-gradient(rgba(255, 255, 255, 0.04) 0deg 10deg, transparent 10deg 20deg);
+    z-index: 0;
+    opacity: 0.3;
+    top: 0; /* Position it at the top */
+    left: 0; /* Position it at the left */
+    animation: slow-spin 30s linear infinite;
 }
