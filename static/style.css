@@ -24,15 +24,14 @@ body {
 
 .rays {
     position: absolute;
-    width: 600px;
-    height: 600px;
+    width: 100vw; /* Full width of the viewport */
+    height: 100vh; /* Full height of the viewport */
     background: radial-gradient(circle, transparent 50%, rgba(255, 255, 255, 0.05) 51%),
                 repeating-conic-gradient(rgba(255, 255, 255, 0.04) 0deg 10deg, transparent 10deg 20deg);
-    border-radius: 50%;
     z-index: 0;
     opacity: 0.3;
-    top: calc(50% - 300px); /* center vertically */
-    left: calc(50% - 300px); /* center horizontally */
+    top: 0; /* Position it at the top */
+    left: 0; /* Position it at the left */
     animation: slow-spin 30s linear infinite;
 }
 
