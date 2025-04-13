@@ -19,7 +19,7 @@
         <!-- Live Exchange Rate -->
         <button onclick="fetchExchangeRate()">Check Exchange Rate</button>
         <button id="approveButton" style="display: none;" onclick="approveTransfer()">Approve Transfer</button>
-
+        
         <!-- Currency Exchange -->
         <h2>Currency Exchange</h2>
         <input type="text" id="fromCurrency" placeholder="From (USD)">
@@ -76,60 +76,63 @@
         }
     
         async function exchangeMoney() {
-            let fromCurrency = document.getElementById("fromCurrency").value;
-            let toCurrency = document.getElementById("toCurrency").value;
-            let amount = document.getElementById("amount").value;
-            let resultDiv = document.getElementById("exchange-money-result");
-            let approveButton = document.getElementById("approveButton");
-    
-            try {
-                let response = await fetch(`/exchange/${fromCurrency}/${toCurrency}/${amount}`, { method: "POST" });
-                let data = await response.json();
-    
-                console.log("Exchange Money Response:", data);
-    
-                if (!response.ok || !data.quote_details) {
-                    resultDiv.innerText = `Error: ${data.error || "Failed to get quote details"}`;
-                    approveButton.style.display = "none";
-                    return;
-                }
-    
-                resultDiv.innerText = JSON.stringify(data.quote_details, null, 2);
-    
-                if (data.quote_details.approve_url) {
-                    console.log("✅ Approve URL Found:", data.quote_details.approve_url);
-                    approveButton.style.display = "block";
-                    approveButton.dataset.url = data.quote_details.approve_url;
-                } else {
-                    console.log("❌ No Approve URL Found");
-                    approveButton.style.display = "none";
-                }
-    
-            } catch (error) {
-                console.error("Error in exchangeMoney:", error);
-                resultDiv.innerText = "An unexpected error occurred.";
-                approveButton.style.display = "none";
-            }
+    let fromCurrency = document.getElementById("fromCurrency").value;
+    let toCurrency = document.getElementById("toCurrency").value;
+    let amount = document.getElementById("amount").value;
+    let resultDiv = document.getElementById("exchange-money-result");
+    let approveButton = document.getElementById("approveButton");
+
+    try {
+        let response = await fetch(`/exchange/${fromCurrency}/${toCurrency}/${amount}`, { method: "POST" });
+        let data = await response.json();
+
+        console.log("Exchange Money Response:", data);
+
+        if (!response.ok || !data.quote_details) {
+            resultDiv.innerText = `Error: ${data.error || "Failed to get quote details"}`;
+            approveButton.style.display = "none";
+            return;
         }
+
+        resultDiv.innerText = JSON.stringify(data.quote_details, null, 2);
+
+        // Show Approve Button and attach quote info
+        approveButton.style.display = "block";
+        approveButton.dataset.quoteId = data.quote_details.quote_id;
+        approveButton.dataset.fromCurrency = fromCurrency;
+        approveButton.dataset.toCurrency = toCurrency;
+
+    } catch (error) {
+        console.error("Error in exchangeMoney:", error);
+        resultDiv.innerText = "An unexpected error occurred.";
+        approveButton.style.display = "none";
+    }
+}
+
     
-        async function approveTransfer() {
-            let approveButton = document.getElementById("approveButton");
-            let url = approveButton.dataset.url;
-    
-            if (!url) {
-                alert("No approval URL found.");
-                return;
-            }
-    
-            try {
-                let response = await fetch(url, { method: 'POST' });
-                let data = await response.json();
-    
-                alert(data.message || `Transfer Failed: ${data.error}`);
-            } catch (error) {
-                alert("Approval request failed.");
-            }
-        }
+    async function approveTransfer() {
+    let approveButton = document.getElementById("approveButton");
+    let quoteId = approveButton.dataset.quoteId;
+    let fromCurrency = approveButton.dataset.fromCurrency;
+    let toCurrency = approveButton.dataset.toCurrency;
+
+    if (!quoteId || !fromCurrency || !toCurrency) {
+        alert("Missing quote data.");
+        return;
+    }
+
+    try {
+        let response = await fetch(`/approve_transfer/${quoteId}/${fromCurrency}/${toCurrency}`, {
+            method: "POST"
+        });
+        let data = await response.json();
+
+        alert(data.message || `Transfer Failed: ${data.error}`);
+    } catch (error) {
+        alert("Approval request failed.");
+    }
+}
+
     
         async function createVirtualCard() {
             let resultDiv = document.getElementById("virtual-card-result");
