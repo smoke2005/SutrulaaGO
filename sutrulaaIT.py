@@ -8,6 +8,9 @@ GOOGLE_API_KEY = "AIzaSyBTSqnDhr7assffH0B5Qn5NEcyg0YUSNMM"
 WEATHER_API_KEY = "a8d346daaedf6c4ad14781551c813db2"
 GEMINI_API_KEY = "AIzaSyBRdwktUscXyQ3WxSSRdqTVuEqEHoeVU8Q"
 
+# Configure Gemini (only needs to be done once)
+genai.configure(api_key=GEMINI_API_KEY)
+
 # === Utils ===
 def get_places(latlon, interest):
     latlon_str = f"{latlon['lat']},{latlon['lon']}"
@@ -89,26 +92,20 @@ def extract_locations_by_day_and_slot(text):
     for line in lines:
         line = line.strip()
 
-        # Match "Day 1", "Day 2", etc.
         if re.match(r'^Day\s*\d+', line, re.IGNORECASE):
             current_day = line.strip()
             itinerary[current_day] = {}
             current_slot = None
             continue
 
-        # Match slot headers like Morning, Afternoon, Evening
         if re.match(r'^(Morning|Afternoon|Evening)', line, re.IGNORECASE):
             current_slot = line.strip().capitalize()
             if current_day:
                 itinerary[current_day][current_slot] = []
             continue
 
-        # Capture lines that might contain place names
         if current_day and current_slot and line:
-            # Remove bullet characters, numbers, dashes
             clean_line = re.sub(r'^[\u2022\-\*\d\.\s]+', '', line)
-
-            # Extract main phrase (e.g., “Visit Marina Beach” or “Then go to Fort”)
             match = re.search(
                 r'(Visit|Explore|Head to|Then|Start at|Stop at|End at|Enjoy|See|Walk around|Check out)?\s*(.*)',
                 clean_line,
@@ -129,26 +126,24 @@ def generate_itinerary_data(lat, lon, days, interests):
     suggested_places = get_places({'lat': lat, 'lon': lon}, interests)
     weather = get_weather_forecast(lat, lon)
 
-    # Step 2: AI itinerary
+    # Step 2: Create prompt for AI
     prompt = f"""
     Create a {days}-day travel itinerary near {lat},{lon} for a traveler interested in {interests}.
-    Current weather is {weather['description']} with temperature around {weather['temp']}°C and humidity {weather['humidity']}%.\n
-    Suggested places to consider: {[p['name'] for p in suggested_places]}.\n
+    Current weather is {weather.get('description', 'clear')} with temperature around {weather.get('temp', '25')}°C and humidity {weather.get('humidity', '60')}%.
+    Suggested places to consider: {[p['name'] for p in suggested_places]}.
     Group nearby places together by morning, afternoon, and evening slots.
     Use bullet points for places.
     """
-    os.environ["GEMINI_API_KEY"] = GEMINI_API_KEY
-    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=prompt,
-    )
-    itinerary_text = response.text
+
+    
+    model = genai.GenerativeModel("gemini-pro")
+    response = model.generate_content(prompt)
+    itinerary_text = response.text if hasattr(response, "text") else "No itinerary generated."
 
     # Step 3: Extract structured itinerary
     day_wise_places = extract_locations_by_day_and_slot(itinerary_text)
 
-    # Step 4: For each slot in each day, get coordinates and distances
+    # Step 4: Get travel segments
     travel_segments = []
 
     for day, slots in day_wise_places.items():
