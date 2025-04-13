@@ -2,7 +2,7 @@ import requests
 import uuid
 
 # Wise API Configurations
-WISE_API_KEY = "8965a7e3-fe68-47b2-af43-0bce63549941"
+WISE_API_KEY = "b16c85fe-0bca-47d8-ae35-66df206616a5"
 WISE_BASE_URL = "https://api.sandbox.transferwise.tech"  # Use "https://api.wise.com/v1" for live
 
 def get_profile_id():
@@ -18,7 +18,7 @@ def get_profile_id():
 
 def create_virtual_card():
     """Generate a Wise Virtual Card for making payments."""
-    profile_id = "28686055"  # Get the profile ID dynamically
+    profile_id = "28706180"  # Get the profile ID dynamically
     if not profile_id:
         return {"error": "Failed to retrieve Wise Profile ID"}
     
@@ -32,16 +32,16 @@ def create_virtual_card():
 
     payload = {
         "program": "VISA_DEBIT_BUSINESS_UK_1_VIRTUAL_CARDS_API",
-        "cardHolderName": "Giovanny Ellis",
+        "cardHolderName": "Graham Ramirez",
         "cardType": "VIRTUAL",
         "address": {
-            "firstLine": "33 Norwich Parc",
+            "firstLine": "23 Ashford Ridgeway",
             "secondLine": None,
             "thirdLine": None,
-            "city": "Port Ha",
-            "postalCode": "E2 4JJ",
+            "city": "Faisawdul Lake",
+            "postalCode": "E77JJ",
             "state": None,
-            "country": "ES"
+            "country": "Spain"
         },
         "deliveryOption": "POSTAL_SERVICE_STANDARD"
     }
@@ -57,7 +57,7 @@ def create_virtual_card():
 
 def get_wise_balance():
     """Fetch Wise account balance and display it as a Virtual Wallet."""
-    profile_id = "28686055"  # Get the profile ID dynamically
+    profile_id = "28706180"  # Get the profile ID dynamically
     print(profile_id)
     if not profile_id:
         return {"error": "Failed to retrieve Wise Profile ID"}
@@ -89,7 +89,7 @@ def fetch_exchange_rate(from_currency, to_currency):
 
 def create_quote(from_currency, to_currency, amount):
     """Create a quote for currency exchange."""
-    profile_id = "28686055"  # Get the profile ID dynamically
+    profile_id = "28706180"  # Get the profile ID dynamically
     if not profile_id:
         return {"error": "Failed to retrieve Wise Profile ID"}
 
@@ -127,7 +127,7 @@ def create_quote(from_currency, to_currency, amount):
 
 def get_balance_id(currency):
     """Retrieve balance ID for a given currency."""
-    profile_id = "28686055" # Get the profile ID dynamically
+    profile_id = "28706180" # Get the profile ID dynamically
     if not profile_id:
         return {"error": "Failed to retrieve Wise Profile ID"}
 
@@ -143,3 +143,4 @@ def get_balance_id(currency):
                 return balance.get("id")  # Safe retrieval of balance ID
 
     return None  # No balance found for the currency
+
