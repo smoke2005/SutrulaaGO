@@ -1,2 +1,3 @@
 # SutrulaaGO
-SutrulaaGO is a tourist app for the ppl who loves travelling efficiently!!!
+
+SutrulaaGO is a tourist app for those who love travelling efficiently!!
